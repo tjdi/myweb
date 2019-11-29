@@ -4,26 +4,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.repository.StudentRepository">
+    <sql id="selectStudents">
+        select s.id, s.name, s.birthday, s.sex, t.id t_id, t.name t_name
+        from students s inner join teachers t on s.teacher_id = t.id
+    </sql>
+    <!--resultMap是将一个Java实体和数据库表格进行一一对应-->
     <resultMap id="studentResultMap" type="com.example.domain.Student">
-        <id column="id" property="id"/>
+        <id column="id" property="id"/> <!--id表示数据库主键-->
+        <!--column表示数据库列名，property表示实体中的属性名-->
         <result column="name" property="name"/>
         <result column="birthday" property="birthday"/>
         <result column="sex" property="sex"/>
-        <association property="teacher" javaType="com.example.domain.Teacher">
-            <id column="id" property="id"/>
-            <result column="name" property="name"/>
+        <!--result表示普通列-->
+        <!--如果实体中存在外键，那么必须写为association-->
+        <association property="teacher"
+                     javaType="com.example.domain.Teacher"
+                     jdbcType="INTEGER">
+            <!--property表示实体中属性的名称-->
+            <!--javaType表示这个属性的Java类型-->
+            <!--jdbcType表示数据库中这列所对应的类型-->
+            <id column="t_id" property="id"/>
+            <result column="t_name" property="name"/>
         </association>
     </resultMap>
     <!--所有方法的参数必须写明-->
     <!--查询语句必须有返回值-->
-    <select id="findAll" resultMap="com.example.domain.Student">
-        select * from students s inner join teachers t on s.teacher_id = t.id;
+    <select id="findAll" resultMap="studentResultMap">
+        select s.id, s.name, s.birthday, s.sex, t.id t_id, t.name t_name
+        from students s inner join teachers t on s.teacher_id = t.id
     </select>
-    <select id="findByTeacherId" resultMap="com.example.domain.Student" parameterType="java.lang.Integer">
-
+    <select id="findByTeacherId" resultType="com.example.domain.Student" parameterType="java.lang.Integer">
+        select s.id, s.name, s.birthday, s.sex, t.id t_id, t.name t_name
+        from students s inner join teachers t on s.teacher_id = t.id
+        where teacher_id=#{id}
     </select>
     <!--除了select，其余语句不能也不需要写返回类型-->
-    <insert id="save" parameterType="com.example.domain.Student"></insert>
-    <delete id="delete" parameterType="com.example.domain.Student"></delete>
-    <update id="update" parameterType="com.example.domain.Student"></update>
+    <insert id="save" parameterType="com.example.domain.Student">
+        insert into students(name, birthday, sex, teacher_id)
+        values (#{name},#{birthday},#{sex},#{teacher.id})
+    </insert>
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from students where teacher_id=#{id}
+    </delete>
+    <update id="update" parameterType="com.example.domain.Student">
+        update students set name=#{name},
+        birthday=#{birthday}, sex=#{sex}, teacher_id=#{teacher.id}
+        where id = #{id}
+    </update>
 </mapper>
