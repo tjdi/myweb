@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace后面加的是这个文件对应接口的包名和接口名-->
+<mapper namespace="com.example.repository.TeacherRepository">
+    <!--id后面加上的是方法名称，resultType表示方法返回值类型的包名和接口名-->
+    <select id="findAll" resultType="com.example.domain.Teacher">
+        select * from teachers;
+    </select>
+
+    <!--parameterType是方法参数类型的包名和接口名-->
+    <!--#{}是固定语法，类似于JDBC的?。里面必须是类中的属性名-->
+    <insert id="save" parameterType="com.example.domain.Teacher">
+        insert into teachers(name) values (#{name })
+    </insert>
+</mapper>
