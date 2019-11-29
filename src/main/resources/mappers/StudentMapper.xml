@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.repository.StudentRepository">
+    <cache/>
     <sql id="selectStudents">
         select s.id, s.name, s.birthday, s.sex, t.id t_id, t.name t_name
         from students s inner join teachers t on s.teacher_id = t.id
