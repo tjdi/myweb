@@ -43,7 +43,7 @@ public class StudentRepositoryTest {
         StudentRepository studentRepository = sqlSession.getMapper(StudentRepository.class);
 
         Teacher teacher = new Teacher();
-        teacher.setId(3);
+        teacher.setId(8);
 
         Student student=new Student();
         student.setName("tom1");

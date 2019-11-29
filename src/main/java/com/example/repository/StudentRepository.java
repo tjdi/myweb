@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import com.example.domain.Student;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,7 +13,12 @@ public interface StudentRepository {
 
     int save(Student student);
 
-    void update(Student student);
+    int update(Student student);
 
-    void select(Integer id);
+    int delete(Integer id);
+
+    List<Student> findByNameAndTeacherId(
+            @Param("name") String name,
+            @Param("id") Integer id
+    );
 }

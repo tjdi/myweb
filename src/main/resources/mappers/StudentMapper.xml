@@ -51,4 +51,9 @@
         birthday=#{birthday}, sex=#{sex}, teacher_id=#{teacher.id}
         where id = #{id}
     </update>
+    <select id="findByNameAndTeacherId" resultMap="studentResultMap">
+        <include refid="selectStudents"/>
+        where id=#{id} and name =#{name}
+    </select>
+
 </mapper>
