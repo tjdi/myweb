@@ -6,8 +6,8 @@
 <mapper namespace="com.example.repository.StudentRepository">
     <resultMap id="studentResultMap" type="com.example.domain.Student">
         <id column="id" property="id"/>
-        <result column="name"property="name"/>
-        <result column="birthday"property="birthday"/>
+        <result column="name" property="name"/>
+        <result column="birthday" property="birthday"/>
         <result column="sex" property="sex"/>
         <association property="teacher" javaType="com.example.domain.Teacher">
             <id column="id" property="id"/>
@@ -16,10 +16,10 @@
     </resultMap>
     <!--所有方法的参数必须写明-->
     <!--查询语句必须有返回值-->
-    <select id="findAll" resultType="com.example.domain.Student">
+    <select id="findAll" resultMap="com.example.domain.Student">
         select * from students s inner join teachers t on s.teacher_id = t.id;
     </select>
-    <select id="findByTeacherId" resultType="com.example.domain.Student" parameterType="java.lang.Integer">
+    <select id="findByTeacherId" resultMap="com.example.domain.Student" parameterType="java.lang.Integer">
 
     </select>
     <!--除了select，其余语句不能也不需要写返回类型-->
