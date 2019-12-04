@@ -9,11 +9,23 @@
     </properties>
     <settings>
         <setting name="cacheEnabled" value="true"/>
+        <!--        <setting name="lazyLoadingEnable" value="true"/>-->
+        <!-- lazyLoadingEnabled:延迟加载启动，默认是false -->
+        <!--      全局性设置懒加载。如果设为‘false’，则所有相关联的都会被初始化加载。  -->
+        <!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+        <!-- aggressiveLazyLoading：积极的懒加载，false的话按需加载，默认是true -->
+        <!--   当设置为‘true’的时候，懒加载的对象可能被任何懒属性全部加载。否则，每个属性都按需加载。     -->
     </settings>
     <typeAliases>
         <typeAlias type="com.example.domain.Student" alias="Student"/>
         <typeAlias type="com.example.domain.Teacher" alias="Teacher"/>
     </typeAliases>
+    <typeHandlers>
+        <typeHandler handler="com.example.handler.TeacherTypeHandler"/>
+    </typeHandlers>
+    <plugins>
+        <plugin interceptor="com.example.interceptor.NowInterceptor"/>
+    </plugins>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -26,7 +38,7 @@
         </environment>
     </environments>
     <mappers>
-        <!--        <mapper resource="mappers/TeacherMapper.xml"/>-->
+        <mapper resource="mappers/TeacherMapper.xml"/>
         <mapper class="com.example.repository.TeacherRepository"/>
         <mapper resource="mappers/StudentMapper.xml"/>
     </mappers>

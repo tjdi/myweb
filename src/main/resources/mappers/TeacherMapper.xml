@@ -5,13 +5,26 @@
 <!--namespace后面加的是这个文件对应接口的包名和接口名-->
 <mapper namespace="com.example.repository.TeacherRepository">
     <!--id后面加上的是方法名称，resultType表示方法返回值类型的包名和接口名-->
-    <select id="findAll" resultType="com.example.domain.Teacher">
-        select * from teachers;
+    <resultMap id="teacherResultMap" type="com.example.domain.Teacher">
+        <id column="t_id" property="id"/>
+        <result column="t_name" property="name"/>
+        <collection property="students" ofType="com.example.domain.Student">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="birthday" property="birthday"/>
+            <result column="sex" property="sex"/>
+        </collection>
+
+    </resultMap>
+    <!-- id后面加上的是方法名称，resultType表示方法返回值类型的包名和接口名-->
+    <select id="findAll" resultMap="teacherResultMap">
+        select s.id, s.name, s.birthday, s.sex, t.id t_id, t.name t_name
+        from students s inner join teachers t on s.teacher_id = t.id
     </select>
 
     <!--parameterType是方法参数类型的包名和接口名-->
     <!--#{}是固定语法，类似于JDBC的?。里面必须是类中的属性名-->
     <insert id="save" parameterType="com.example.domain.Teacher">
-        insert into teachers(name) values (#{name })
+        insert into teachers(name) values (#{name})
     </insert>
 </mapper>

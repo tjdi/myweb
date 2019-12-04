@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.repository.StudentRepository">
-    <cache/>
+    <cache type="com.example.cache.RedisCache"/>
     <sql id="selectStudents">
         select s.id, s.name, s.birthday, s.sex, t.id t_id, t.name t_name
         from students s inner join teachers t on s.teacher_id = t.id
@@ -48,8 +48,18 @@
         delete from students where teacher_id=#{id}
     </delete>
     <update id="update" parameterType="com.example.domain.Student">
-        update students set name=#{name},
-        birthday=#{birthday}, sex=#{sex}, teacher_id=#{teacher.id}
+        update students
+        <set>
+            <if test="name !=null">
+                name =#{name}
+            </if>
+            <if test=""></if>
+            <if test=""></if>
+            <if test=""></if>
+        </set>
+
+--         set name=#{name},
+--         birthday=#{birthday}, sex=#{sex}, teacher_id=#{teacher.id}
         where id = #{id}
     </update>
     <select id="findByNameAndTeacherId" resultMap="studentResultMap">

@@ -43,15 +43,17 @@ public class StudentRepositoryTest {
         StudentRepository studentRepository = sqlSession.getMapper(StudentRepository.class);
 
         Teacher teacher = new Teacher();
-        teacher.setId(8);
+        teacher.setId(9);
 
-        Student student=new Student();
-        student.setName("tom1");
-        student.setBirthday(LocalDate.now());
+        Student student = new Student();
+        student.setName("now");
+//        student.setBirthday(LocalDate.now());
         student.setSex(Sex.M);
         student.setTeacher(teacher);
-
+        System.out.println(student);
         studentRepository.save(student);
+
+        System.out.println(student);
 
         sqlSession.commit();
     }
@@ -62,10 +64,10 @@ public class StudentRepositoryTest {
         StudentRepository studentRepository = sqlSession.getMapper(StudentRepository.class);
         Student student = new Student();
         student.setId(2);
-        student.setBirthday(LocalDate.of(2020,1,1));
+        student.setBirthday(LocalDate.of(2020, 1, 1));
         student.setName("Tom");
         student.setSex(Sex.F);
-        Teacher teacher=new Teacher();
+        Teacher teacher = new Teacher();
         teacher.setId(1);
         student.setTeacher(teacher);
         studentRepository.update(student);
